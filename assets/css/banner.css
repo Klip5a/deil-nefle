@@ -1,0 +1,62 @@
+/* Основной блок секции */
+.banner {
+    position: relative;
+    width: 100%;
+    height: 261px;
+    background-color: #ae97e8;
+    overflow: hidden;
+    margin-top: 100px;
+}
+
+/* общий стиль баннера */
+.banner__strip {
+    position: absolute;
+    width: 200%;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    padding-top: 11px;
+}
+
+/* первый баннер */
+.banner__strip--top {
+    top: 50%;
+    left: 50%;
+    background-color: #aeceff;
+    transform: translate(-50%, -50%) rotate(-2deg);
+    z-index: 2;
+}
+
+/* второй баннер */
+.banner__strip--bottom {
+    background-color: #cbb6ff;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(5deg);
+}
+
+/* текст */
+.banner__strip span {
+    color: var(--color-white);
+    font-family: var(--font-secondary);
+    font-weight: 400;
+    font-size: 40px;
+    letter-spacing: 0.04em;
+    line-height: 1;
+    text-transform: uppercase;
+    margin: 0 25px;
+}
+
+.banner__strip span:after {
+    content: "";
+    display: inline-block;
+    background-image: url("../icons/star.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 21px;
+    height: 21px;
+    padding-bottom: 5px;
+    margin-left: 50px;
+}

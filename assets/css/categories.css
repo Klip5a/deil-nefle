@@ -1,0 +1,115 @@
+.categories {
+	margin-top: 160px;
+	text-align: center;
+}
+
+.categories__title {
+	font-weight: 500;
+	font-size: 60px;
+	text-transform: uppercase;
+	line-height: 1;
+}
+
+.categories__list {
+	display: flex;
+	justify-content: space-between;
+	max-width: 1800px;
+	margin-top: 60px;
+}
+
+.categories__item {
+	position: relative;
+	width: 428px;
+	height: 517px;
+	overflow: hidden;
+}
+
+.categories__content {
+	position: relative;
+	background-image: url("../images/ui/Subtract.svg");
+	background-repeat: no-repeat;
+	width: 388px;
+	height: 500px;
+	border-radius: 50%;
+	z-index: 2;
+	cursor: pointer;
+}
+
+.categories__image {
+	position: absolute;
+	top: 44%;
+	left: 46%;
+	transform: translate(-44%, -46%);
+}
+
+.categories__name {
+	position: absolute;
+	max-width: 181px;
+	top: 40px;
+	left: 0px;
+	font-size: 16px;
+	font-weight: 500;
+	font-size: 28px;
+	text-transform: uppercase;
+	text-align: left;
+	line-height: 1.2;
+}
+
+.categories__inscription {
+	position: absolute;
+	background-image: url("../images/ui/inscription.svg");
+	bottom: 76px;
+	left: 15px;
+	width: 89px;
+	height: 196px;
+}
+
+.categories__badge {
+	position: absolute;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	right: 5px;
+	top: 149px;
+	width: 81px;
+	height: 75px;
+	background-image: url("../images/ui/plashka.svg");
+	background-repeat: no-repeat;
+	background-position: center;
+	transform: rotate(-23deg);
+}
+
+.categories__badge-wrapper {
+	padding-top: 9px;
+}
+.categories__badge-number {
+	line-height: 1;
+	font-family: var(--font-secondary);
+	font-weight: 400;
+	font-size: 40px;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+
+.categories__badge-text {
+	line-height: 1;
+	font-weight: 500;
+	font-size: 15px;
+	text-transform: uppercase;
+}
+
+.categories__button {
+	position: absolute;
+	bottom: 0;
+	left: 144px;
+	width: 101px;
+	height: 101px;
+	border-radius: 100%;
+	border: 2px solid var(--color-lime);
+	background-image: url("../icons/arrow-lime.svg");
+	background-repeat: no-repeat;
+	background-color: transparent;
+	background-position: center;
+	cursor: pointer;
+}

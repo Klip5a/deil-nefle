@@ -1,0 +1,31 @@
+@import url("./stylesheet.css");
+@import url("./global.css");
+@import url("./loader.css");
+@import url("./header.css");
+@import url("./header-modal.css");
+@import url("./cart.css");
+@import url("./favorite.css");
+@import url("./slider.css");
+@import url("./categories.css");
+@import url("./products.css");
+@import url("./filter.css");
+@import url("./banner.css");
+@import url("./blog.css");
+
+.footer {
+	margin-top: 221px;
+	text-align: center;
+	background-color: var(--color-lavender);
+	padding-right: 35px;
+	padding-left: 27px;
+	display: flex;
+	justify-content: space-between;
+	height: 130px;
+}
+
+.footer__text {
+	font-family: var(--font-footer);
+	font-weight: 500;
+	font-size: 18px;
+	letter-spacing: 0.02em;
+}
