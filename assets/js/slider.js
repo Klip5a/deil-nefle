@@ -147,7 +147,6 @@ document.addEventListener("DOMContentLoaded", function () {
       otherLabel.style.visibility = "visible";
       otherLabel.style.transition = "opacity 1s ease, visibility 1s ease";
     });
-
   }
 
   // Функция для обработки события "mouseleave" (уход мыши со слайда)
@@ -187,6 +186,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // Восстановление заголовка
     title.style.fontSize = "70px";
     title.style.visibility = "visible";
+    title.style.opacity = "1";
+    title.style.transition = "opacity 1s ease, font-size 1s ease, visibility 1s ease";
 
     // Скрытие бейджа
     badge.style.opacity = "0";
@@ -215,7 +216,14 @@ document.addEventListener("DOMContentLoaded", function () {
     price.style.transform = "translateX(-50%)";
     price.style.fontSize = "28px";
     price.style.color = "var(--color-white)";
-    price.style.transition = "color 1.5s ease, font-size 1.5s ease, left 1.5s ease, transform 1.5s ease";
+    price.style.transition =
+      "color 1.5s ease, font-size 1.5s ease, left 1.5s ease, transform 1.5s ease";
+
+    // Стилизация label
+    label.style.opacity = "0";
+    label.style.visibility = "hidden";
+    label.style.fontSize = "0px";
+    label.style.transition = "opacity 0.5s ease, visibility 0.5s ease";
 
     // Скрытие кнопки
     button.style.right = "20%";
