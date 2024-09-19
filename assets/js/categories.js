@@ -18,7 +18,7 @@ export function initializeCategories() {
     function hoverEffect() {
       button.style.border = "2px solid var(--color-lime)"; // Изменяем границу кнопки.
       button.style.backgroundColor = "var(--color-lime)"; // Меняем цвет фона кнопки.
-      button.style.backgroundImage = 'url("./assets/icons/arrow-lavender.svg)'; // Меняем иконку на стрелку другого цвета.
+      button.style.backgroundImage = 'url("./assets/icons/arrow-lavender.svg")'; // Меняем иконку на стрелку другого цвета.
       button.style.transition =
         "border 0.5s ease, background-color 0.5s ease, background-image 0.5s ease"; // Добавляем плавный переход для всех изменений.
     }
