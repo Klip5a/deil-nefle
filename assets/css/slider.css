@@ -66,8 +66,8 @@
 	width: 159px;
 	transition:
 		width 1.5s ease,
-		transform 1.5s ease,
-		top 1.5s ease;
+		/* transform 1.5s ease, */
+		/* top 1.5s ease; */
 }
 
 .slider__item .slider__image--2 {

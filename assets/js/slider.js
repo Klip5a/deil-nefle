@@ -130,7 +130,7 @@ document.addEventListener("DOMContentLoaded", function () {
       otherDetail.style.left = "50%";
       otherDetail.style.transform = "translateX(-50%)";
       otherDetail.style.transition =
-        "opacity 1s ease , visibility 1s ease, left 1s ease, transform 1s ease";
+        "opacity 0.5s ease , visibility 0.5s ease, left 1s ease, transform 1s ease";
     });
 
     // Показ других лейблов
