@@ -32,17 +32,16 @@ export function addToFavorites(product) {
                   <div class="favorite-item__color-indicator" style="background-color: ${product.color_indicator};"></div>
                   <p class="favorite-item__name">${product.title}</p>
                 </div>
-                <p class="favorite-item__type">Лампа настольная</p> <!-- Указываем тип товара -->
+                <p class="favorite-item__type">Лампа настольная</p>
               </div>
-              <button class="favorite-item__remove"></button> <!-- Кнопка для удаления товара из избранного -->
+              <button class="favorite-item__favorite-btn"></button>
             </div>
             <div class="line"></div>
             <div class="favorite-item__footer">
               <p class="price favorite-item__price">
                 ${priceWithoutCurrency}
-                <span class="currency favorite-item__currency">₽</span> <!-- Отображение цены с символом валюты -->
+                <span class="currency favorite-item__currency">₽</span>
               </p>
-              <!-- Опционально, можно добавить кнопку "Добавить в корзину" -->
             </div>
           </div>
         </div>
@@ -52,7 +51,7 @@ export function addToFavorites(product) {
 
       // Добавляем обработчик события для кнопки удаления товара
       const removeButton = favoritesList.querySelector(
-        `.favorite-item[data-name="${product.name}"] .favorite-item__remove`
+        `.favorite-item[data-name="${product.name}"] .favorite-item__favorite-btn`
       );
       removeButton.addEventListener("click", () => removeFromFavorites(product.name));
     }
@@ -92,7 +91,7 @@ export function checkFavoritesEmptyState() {
   } else {
     // Если в избранном есть товары, показываем заголовок и список, скрываем сообщение о пустоте
     modalTitle.style.display = "block";
-    favoritesList.style.display = "block";
+    favoritesList.style.display = "flex";
     emptyMessage.style.display = "none";
   }
 }

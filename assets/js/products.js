@@ -14,6 +14,10 @@ export function initializeProducts() {
   const modalDescription = productModal.querySelector(".product-modal__description");
   const modalPriceAmount = productModal.querySelector(".product-modal__price");
 
+  const mobileModal = document.getElementById("productMobileModal");
+  const mobileModalList = document.getElementById("productListMobile");
+  const closeModalButton = document.getElementById("productMobileCloseModal");
+
   let currentPage = 1;
   const productsPerPage = 5;
   let currentCategory = null;
@@ -33,31 +37,33 @@ export function initializeProducts() {
     item.addEventListener("click", () => {
       const clickedCategory = item.getAttribute("data-category");
 
-      // Проверяем, активна ли текущая категория
-      if (clickedCategory === currentCategory) {
-        productsSection.classList.remove("active");
-        productsSection.classList.add("hiding");
-
-        // Прячем секцию продуктов с задержкой для анимации
-        setTimeout(() => {
-          productsSection.classList.remove("hiding");
-          productsSection.style.visibility = "hidden";
-        }, 500); // Время анимации
-        currentCategory = null;
+      if (window.innerWidth <= 520) {
+        // Если ширина экрана <= 520px, показываем модальное окно
+        openMobileModal(clickedCategory);
       } else {
-        // Переключаем категорию, сбрасываем страницу
-        currentCategory = clickedCategory;
-        currentPage = 1;
+        // Обычное поведение для больших экранов
+        if (clickedCategory === currentCategory) {
+          productsSection.classList.remove("active");
+          productsSection.classList.add("hiding");
 
-        productsSection.style.visibility = "visible";
-        productsSection.classList.add("active");
-        loadProducts(); // Загружаем продукты для выбранной категории
-
-        // Проверяем, нужно ли показывать кнопку "Загрузить еще"
-        if (productsData[currentCategory].length > productsPerPage) {
-          loadMoreButton.style.display = "block";
+          setTimeout(() => {
+            productsSection.classList.remove("hiding");
+            productsSection.style.visibility = "hidden";
+          }, 500);
+          currentCategory = null;
         } else {
-          loadMoreButton.style.display = "none";
+          currentCategory = clickedCategory;
+          currentPage = 1;
+
+          productsSection.style.visibility = "visible";
+          productsSection.classList.add("active");
+          loadProducts(); // Загружаем продукты для выбранной категории
+
+          if (productsData[currentCategory].length > productsPerPage) {
+            loadMoreButton.style.display = "block";
+          } else {
+            loadMoreButton.style.display = "none";
+          }
         }
       }
     });
@@ -233,7 +239,7 @@ export function initializeProducts() {
     const favoriteButton = productModal.querySelector(".product-modal__favorite");
     if (favoriteButton) {
       // Проверяем, добавлен ли продукт в избранное
-      const isFavorited = favoriteItems.some((item) => item.name === product.name);
+      const isFavorited = favoriteItems.some((item) => item.id === product.id);
       if (isFavorited) {
         favoriteButton.classList.add("favorited");
       } else {
@@ -248,7 +254,7 @@ export function initializeProducts() {
       newFavoriteButton.addEventListener("click", () => {
         if (newFavoriteButton.classList.contains("favorited")) {
           // Удаляем из избранного
-          removeFromFavorites(product.name);
+          removeFromFavorites(product.id);
           newFavoriteButton.classList.remove("favorited");
         } else {
           // Добавляем в избранное
@@ -298,22 +304,107 @@ export function initializeProducts() {
       const sliderItem = sliderImage.closest(".slider__item");
       const sliderTitle = sliderItem.querySelector(".slider__title");
       const titleColor = window.getComputedStyle(sliderTitle).color;
+      const dataSlide = sliderItem.getAttribute("data-slide");
 
       const product = {
+        id: dataSlide,
         image: sliderImage.src,
+        name: sliderItem.querySelector(".slider__title").textContent.trim(),
         title: sliderItem.querySelector(".slider__title").textContent,
         description: sliderItem.querySelector(".slider__description").textContent,
         price: sliderItem.querySelector(".slider__price").textContent.trim(),
         backgroundColor: window.getComputedStyle(sliderItem).backgroundColor,
         titleColor: titleColor,
+        color_indicator: "", // Если применимо
       };
-
-      // Устанавливаем особый цвет фона для первого слайда
       if (index === 0) {
         product.backgroundColor = "#AE97E8";
       }
-
       openProductModal(product);
     });
+  });
+
+  // Функция для открытия модального окна на мобильных устройствах
+  function openMobileModal(category) {
+    currentCategory = category;
+    mobileModal.classList.add("active");
+
+    // Загружаем продукты в модальное окно
+    loadMobileProducts();
+  }
+
+  // Функция для загрузки продуктов в мобильное модальное окно
+  function loadMobileProducts() {
+    // Очищаем список перед загрузкой
+    mobileModalList.innerHTML = "";
+
+    const productsToLoad = productsData[currentCategory];
+
+    productsToLoad.forEach((product) => {
+      const priceWithoutCurrency = product.price.replace("₽", "").trim();
+
+      const productHTML = `
+      <div class="product-mobile-item" data-name="${product.name}">
+        <div class="product-mobile__image-wrapper">
+          <img src="${product.image}" alt="${product.name}" class="product-mobile__image" />
+        </div>
+        <div class="product-mobile__content">
+          <div class="product-mobile__header">
+            <div class="product-mobile__details">
+              <div class="product-mobile__name-wrapper">
+                <div class="product-mobile__color-indicator" style="background-color: ${product.color_indicator};"></div>
+                <p class="product-mobile__name">${product.name}</p>
+              </div>
+              <p class="product-mobile__type">Лампа настольная</p>
+            </div>
+          </div>
+          <div class="line"></div>
+          <div class="product-mobile__footer">
+            <p class="price product-mobile__price">
+              ${priceWithoutCurrency}
+              <span class="currency product-mobile__currency">₽</span>
+            </p>
+            <button class="product-mobile__button">
+              <div class='icon'></div>
+              Купить
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+      mobileModalList.innerHTML += productHTML;
+    });
+
+    // Добавляем обработчики событий на кнопки "Купить"
+    addMobileBuyButtonListeners();
+  }
+
+  // Функция для добавления обработчиков на кнопки покупки в мобильном модальном окне
+  function addMobileBuyButtonListeners() {
+    const mobileBuyButtons = document.querySelectorAll(".product-mobile__button");
+
+    mobileBuyButtons.forEach((button) => {
+      button.addEventListener("click", function () {
+        const productItem = button.closest(".product-mobile-item");
+        const product = {
+          name: productItem.querySelector(".product-mobile__name").textContent.trim(),
+          price: productItem.querySelector(".product-mobile__price").textContent.trim(),
+          color_indicator: productItem.querySelector(".product-mobile__color-indicator").style
+            .backgroundColor,
+          image: productItem.querySelector(".product-mobile__image").src,
+          quantity: 1,
+        };
+
+        const imageElement = productItem.querySelector(".product-mobile__image");
+
+        // Добавляем товар в корзину с анимацией
+        addToCartWithAnimation(product, imageElement);
+      });
+    });
+  }
+
+  // Закрытие модального окна
+  closeModalButton.addEventListener("click", () => {
+    mobileModal.classList.remove("active");
   });
 }

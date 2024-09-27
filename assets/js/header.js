@@ -9,6 +9,8 @@ export function initializeHeader() {
   const registrationModal = document.getElementById("modal-registration");
   const closeButtons = document.querySelectorAll(".modal__close");
 
+  let scrollPosition = 0;
+
   // Функция закрытия всех модальных окон
   function closeAllModals() {
     const allModals = [cartModal, favoritesModal, loginModal, registrationModal];
@@ -26,6 +28,9 @@ export function initializeHeader() {
       modal.classList.add("modal--show");
       modal.classList.remove("modal--hidden");
 
+      // Добавляем активный класс к modal-wrapper
+      document.querySelector(".modal-wrapper").classList.add("modal-wrapper--active");
+
       // Отключаем слайдер при открытии модального окна
       document.querySelector(".main-content").classList.add("no-slider");
 
@@ -34,6 +39,15 @@ export function initializeHeader() {
         checkCartEmptyState();
       } else if (modal === favoritesModal) {
         checkFavoritesEmptyState();
+      }
+
+      if (window.innerWidth <= 510) {
+        // Сохраняем текущую позицию прокрутки
+        scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+
+        // Добавляем класс к body и устанавливаем позицию
+        document.body.classList.add("modal-open");
+        document.body.style.top = `-${scrollPosition}px`;
       }
     }
   }
@@ -45,8 +59,17 @@ export function initializeHeader() {
       modal.classList.add("modal--hidden");
     }, 400); // Задержка для анимации
 
+    // Удаляем активный класс из modal-wrapper
+    document.querySelector(".modal-wrapper").classList.remove("modal-wrapper--active");
+
     // Включаем слайдер после закрытия модального окна
     document.querySelector(".main-content").classList.remove("no-slider");
+
+    if (document.body.classList.contains("modal-open")) {
+      document.body.classList.remove("modal-open");
+      document.body.style.top = "";
+      window.scrollTo(0, scrollPosition);
+    }
   }
 
   // Добавляем события открытия для кнопок модальных окон (корзина, избранное, вход, регистрация)
@@ -219,16 +242,14 @@ export function initializeHeader() {
   }
 
   // Открытие поиска по нажатию на кнопку
-  document
-    .querySelector(".header__section:nth-child(3) .header__link")
-    .addEventListener("click", function (e) {
-      e.preventDefault();
-      const overlay = document.querySelector(".search-overlay");
-      overlay.style.display = "flex"; // Показываем элемент
-      setTimeout(() => {
-        overlay.classList.add("active"); // Запускаем анимацию
-      }, 10);
-    });
+  document.getElementById("header__link--search").addEventListener("click", function (e) {
+    e.preventDefault();
+    const overlay = document.querySelector(".search-overlay");
+    overlay.style.display = "flex"; // Показываем элемент
+    setTimeout(() => {
+      overlay.classList.add("active"); // Запускаем анимацию
+    }, 10);
+  });
 
   // Закрытие поиска
   document.querySelector(".search-bar__close").addEventListener("click", function () {

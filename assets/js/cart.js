@@ -69,7 +69,7 @@ export function addToCart(product) {
 // Функция обновления общей суммы товаров в корзине
 export function updateTotalAmount() {
   const totalAmountElement = document.querySelector(".cart__total-amount");
-  
+
   // Рассчитываем общую сумму, убираем пробелы из цены и умножаем на количество товаров
   const totalAmount = cartItems.reduce(
     (acc, item) => acc + parseInt(item.price.replace(/\s/g, "")) * item.quantity,
@@ -77,7 +77,7 @@ export function updateTotalAmount() {
   );
 
   // Отображаем общую сумму в элементе с разделением тысяч
-  totalAmountElement.textContent = `${totalAmount.toLocaleString()} ₽`;
+  totalAmountElement.innerHTML = `${totalAmount.toLocaleString()} <span class="currency cart__total-currency">₽</span>`;
 }
 
 // Функция проверки, пустая ли корзина

@@ -23,12 +23,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Размеры изображений для каждого слайда в различных состояниях
   const imageSizes = {
-    1: { other: "159px", default: "199px", hover: "341px" },
-    2: { other: "183px", default: "230px", hover: "394px" },
-    3: { other: "158px", default: "198px", hover: "354px" },
+    1: { other: "8.28vw", default: "10.36vw", hover: "17.76vw" },
+    2: { other: "9.53vw", default: "11.98vw", hover: "20.52vw" },
+    3: { other: "8.23vw", default: "10.31vw", hover: "18.44vw" },
   };
-
-  let activeSlide = sliders[0]; // Активный слайд по умолчанию
 
   // Функция для обработки события "mouseenter" (наведение мыши на слайд)
   function handleMouseEnter(
@@ -62,14 +60,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Увеличение текущего слайда
     slider.style.flexGrow = "3";
-    slider.style.width = "1160px";
+    slider.style.width = "60vw";
     slider.style.transition = "flex-grow 1.5s ease, width 1.5s ease, background-color 1s ease";
     slider.classList.add("slider__item--expanded");
 
     // Изменение изображения при наведении
     image.style.width = imageSize;
     image.style.transform = `translateY(-50%) rotate(0deg)`;
-    image.style.transition = "width 1.5s ease, transform 1.5s ease";
+    image.style.transition = "width 1s ease, transform 1s ease";
 
     // Показ и стилизация бейджа
     badge.style.opacity = "1";
@@ -78,8 +76,8 @@ document.addEventListener("DOMContentLoaded", function () {
     badge.style.transition = "opacity 1s ease, font-size 1s ease";
 
     // Стилизация заголовка
+    title.style.fontSize = "clamp(4.5rem, 11vw, 28rem)";
     title.style.transition = "font-size 1.5s ease, opacity 1s ease";
-    title.style.fontSize = "clamp(60px, 10.6vw, 212px)";
 
     // Стилизация блока с деталями
     details.style.left = "0";
@@ -110,16 +108,17 @@ document.addEventListener("DOMContentLoaded", function () {
       "color 1.5s ease, font-size 1.5s ease, left 1.5s ease, transform 1.5s ease";
 
     // Стилизация кнопки
-    button.style.bottom = "29px";
-    button.style.right = "-9px";
+    button.style.bottom = "11.4%";
+    button.style.right = "16%";
     button.style.opacity = "1";
     button.style.zIndex = "2";
+    button.style.transition = "right 1s ease, bottom 1.5s ease, opacity 1s ease";
 
     // Скрытие других заголовков
     otherTitles.forEach((otherTitle) => {
       otherTitle.style.visibility = "hidden";
       otherTitle.style.opacity = "0";
-      otherTitle.style.fontSize = "70px";
+      otherTitle.style.fontSize = "4.5rem";
       otherTitle.style.transition = "opacity 1s ease , visibility 1s ease, font-size 1s ease";
     });
 
@@ -175,16 +174,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Уменьшение слайда до первоначального состояния
     slider.style.flexGrow = "1";
-    slider.style.width = "340px";
+    slider.style.width = "17.5vw";
     slider.classList.remove("slider__item--expanded");
 
     // Восстановление состояния изображения
     image.style.width = imageSize;
     image.style.transform = "translateY(-50%) rotate(7deg)";
-    image.style.transition = "width 1.5s ease, transform 1.5s ease";
+    image.style.transition = "width 1s ease, transform 1s ease";
 
     // Восстановление заголовка
-    title.style.fontSize = "70px";
+    title.style.fontSize = "4.5rem";
     title.style.visibility = "visible";
     title.style.opacity = "1";
     title.style.transition = "opacity 1s ease, font-size 1s ease, visibility 1s ease";
@@ -226,9 +225,10 @@ document.addEventListener("DOMContentLoaded", function () {
     label.style.transition = "opacity 0.5s ease, visibility 0.5s ease";
 
     // Скрытие кнопки
-    button.style.right = "20%";
+    button.style.right = "40%";
     button.style.bottom = "-50%";
     button.style.opacity = "0";
+    button.style.transition = "right 1s ease, bottom 1.5s ease, opacity 1s ease";
 
     // Показ других заголовков
     otherTitles.forEach((otherTitle) => {
@@ -258,34 +258,289 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Добавляем события "mouseenter" и "mouseleave" на каждый слайд
-  sliders.forEach((sliderElements, index) => {
-    const otherTitles = sliders.filter((_, i) => i !== index).map((slider) => slider.title);
-    const otherDetails = sliders.filter((_, i) => i !== index).map((slider) => slider.details);
-    const otherLabel = sliders.filter((_, i) => i !== index).map((slider) => slider.label);
-    const otherImages = sliders.filter((_, i) => i !== index).map((slider) => slider.image);
+  let activeIndex = 0;
+  let activeSlide = sliders[activeIndex];
 
-    // Наведение на слайд
-    sliderElements.slider.addEventListener("mouseenter", () =>
-      handleMouseEnter(
-        sliderElements,
-        index + 1,
-        otherTitles,
-        otherDetails,
-        otherLabel,
-        otherImages
-      )
+  function removeExpandedClass() {
+    sliders.forEach((slider) => {
+      slider.slider.classList.remove("slider__item--expanded");
+    });
+  }
+  const swipe = function (el, settings) {
+    const options = Object.assign(
+      {},
+      {
+        minDist: 60, // минимальная дистанция, чтобы жест считался свайпом (px)
+        maxTime: 700, // максимальное время для свайпа (ms)
+        minTime: 50, // минимальное время для свайпа (ms)
+      },
+      settings
     );
-    // Уход с слайда
-    sliderElements.slider.addEventListener("mouseleave", () =>
+
+    let dir,
+      dist,
+      startX = 0,
+      startY = 0,
+      startTime = 0,
+      isMouse = false,
+      isMouseDown = false;
+
+    const getSupportedEvents = function () {
+      const support = {
+        pointer: !!("PointerEvent" in window),
+        touch: !!("ontouchstart" in window || navigator.maxTouchPoints > 0),
+      };
+      return support.pointer
+        ? {
+            type: "pointer",
+            start: "pointerdown",
+            move: "pointermove",
+            end: "pointerup",
+          }
+        : support.touch
+        ? {
+            type: "touch",
+            start: "touchstart",
+            move: "touchmove",
+            end: "touchend",
+          }
+        : {
+            type: "mouse",
+            start: "mousedown",
+            move: "mousemove",
+            end: "mouseup",
+          };
+    };
+
+    const events = getSupportedEvents();
+
+    const eventsUnify = (e) => (e.changedTouches ? e.changedTouches[0] : e);
+
+    const checkStart = (e) => {
+      const event = eventsUnify(e);
+      dir = "none";
+      dist = 0;
+      startX = event.pageX;
+      startY = event.pageY;
+      startTime = new Date().getTime();
+      if (isMouse) isMouseDown = true;
+    };
+
+    const checkMove = (e) => {
+      if (isMouse && !isMouseDown) return;
+      const event = eventsUnify(e);
+      const distX = event.pageX - startX;
+      const distY = event.pageY - startY;
+      dir =
+        Math.abs(distX) > Math.abs(distY)
+          ? distX < 0
+            ? "left"
+            : "right"
+          : distY < 0
+          ? "up"
+          : "down";
+    };
+
+    const checkEnd = (e) => {
+      if (isMouse && !isMouseDown) {
+        isMouseDown = false;
+        return;
+      }
+      const endTime = new Date().getTime();
+      const time = endTime - startTime;
+      if (time >= options.minTime && time <= options.maxTime) {
+        dist = Math.abs(
+          dir === "left" || dir === "right"
+            ? startX - eventsUnify(e).pageX
+            : startY - eventsUnify(e).pageY
+        );
+        if (dist >= options.minDist) {
+          const swipeEvent = new CustomEvent("swipe", {
+            bubbles: true,
+            cancelable: true,
+            detail: { dir, dist, time },
+          });
+          el.dispatchEvent(swipeEvent);
+        }
+      }
+    };
+
+    el.addEventListener(events.start, checkStart);
+    el.addEventListener(events.move, checkMove);
+    el.addEventListener(events.end, checkEnd);
+  };
+
+  function setActiveSlide(currentIndex) {
+    const previousIndex = sliders.indexOf(activeSlide);
+    const currentSliderElements = sliders[currentIndex];
+    const previousSliderElements = activeSlide;
+
+    // Проверка, нужно ли применять класс `slider__item--expanded`
+    if (!isMobile()) {
+      console.log(`Переключение слайда: с ${previousIndex + 1} на ${currentIndex + 1}`);
+
+      // Подготовка параметров для предыдущего слайда
+      const previousOtherTitles = sliders
+        .filter((_, i) => i !== previousIndex)
+        .map((slider) => slider.title);
+      const previousOtherDetails = sliders
+        .filter((_, i) => i !== previousIndex)
+        .map((slider) => slider.details);
+      const previousOtherLabel = sliders
+        .filter((_, i) => i !== previousIndex)
+        .map((slider) => slider.label);
+      const previousOtherImages = sliders
+        .filter((_, i) => i !== previousIndex)
+        .map((slider) => slider.image);
+
+      // Сброс предыдущего слайда
       handleMouseLeave(
-        sliderElements,
-        index + 1,
-        otherTitles,
-        otherDetails,
-        otherLabel,
-        otherImages
-      )
-    );
-  });
+        previousSliderElements,
+        previousIndex + 1,
+        previousOtherTitles,
+        previousOtherDetails,
+        previousOtherLabel,
+        previousOtherImages
+      );
+
+      // Подготовка параметров для текущего слайда
+      const currentOtherTitles = sliders
+        .filter((_, i) => i !== currentIndex)
+        .map((slider) => slider.title);
+      const currentOtherDetails = sliders
+        .filter((_, i) => i !== currentIndex)
+        .map((slider) => slider.details);
+      const currentOtherLabel = sliders
+        .filter((_, i) => i !== currentIndex)
+        .map((slider) => slider.label);
+      const currentOtherImages = sliders
+        .filter((_, i) => i !== currentIndex)
+        .map((slider) => slider.image);
+
+      // Активация текущего слайда
+      handleMouseEnter(
+        currentSliderElements,
+        currentIndex + 1,
+        currentOtherTitles,
+        currentOtherDetails,
+        currentOtherLabel,
+        currentOtherImages
+      );
+
+      activeSlide = currentSliderElements;
+      activeIndex = currentIndex;
+    } else {
+      // Убираем все расширения слайдов на мобильных разрешениях
+      removeExpandedClass();
+      console.log("Мобильное разрешение. Расширение слайдов отключено.");
+
+      const sliderContainer = document.querySelector(".slider");
+      const slideWidth = window.innerWidth;
+
+      sliderContainer.scrollTo({
+        left: currentIndex * slideWidth,
+        behavior: "smooth",
+      });
+    }
+
+    activeIndex = currentIndex;
+    activeSlide = currentSliderElements;
+  }
+
+  // Функции переключения слайдов
+  function nextSlide() {
+    console.log("Переключение на следующий слайд");
+    const newIndex = (activeIndex + 1) % sliders.length;
+    setActiveSlide(newIndex);
+  }
+
+  function prevSlide() {
+    console.log("Переключение на предыдущий слайд");
+    const newIndex = (activeIndex - 1 + sliders.length) % sliders.length;
+    setActiveSlide(newIndex);
+  }
+
+  // Функция для инициализации свайпов  function initializeSwipes() {
+  function initializeSwipes() {
+    const slider = document.querySelector(".slider");
+
+    // Используем функцию свайпа
+    swipe(slider, { minDist: 50 });
+
+    slider.addEventListener("swipe", function (e) {
+      console.log(`Свайп ${e.detail.dir} обнаружен!`);
+      if (e.detail.dir === "left") {
+        nextSlide();
+      } else if (e.detail.dir === "right") {
+        prevSlide();
+      }
+    });
+  }
+
+  // Проверка мобильного разрешения
+  function isMobile() {
+    return window.innerWidth <= 1280;
+  }
+
+  // Инициализация свайпов только на мобильных устройствах
+  if (isMobile()) {
+    initializeSwipes();
+    removeExpandedClass();
+  } else {
+    // Добавляем события только для десктопа
+    sliders.forEach((sliderElements, index) => {
+      const otherTitles = sliders.filter((_, i) => i !== index).map((slider) => slider.title);
+      const otherDetails = sliders.filter((_, i) => i !== index).map((slider) => slider.details);
+      const otherLabel = sliders.filter((_, i) => i !== index).map((slider) => slider.label);
+      const otherImages = sliders.filter((_, i) => i !== index).map((slider) => slider.image);
+
+      // Наведение на слайд
+      sliderElements.slider.addEventListener("mouseenter", () =>
+        handleMouseEnter(
+          sliderElements,
+          index + 1,
+          otherTitles,
+          otherDetails,
+          otherLabel,
+          otherImages
+        )
+      );
+
+      // Уход с слайда
+      sliderElements.slider.addEventListener("mouseleave", () =>
+        handleMouseLeave(
+          sliderElements,
+          index + 1,
+          otherTitles,
+          otherDetails,
+          otherLabel,
+          otherImages
+        )
+      );
+
+      // Клик по слайду
+      // sliderElements.slider.addEventListener("click", () =>
+      //   handleMouseEnter(
+      //     sliderElements,
+      //     index + 1,
+      //     otherTitles,
+      //     otherDetails,
+      //     otherLabel,
+      //     otherImages
+      //   )
+      // );
+
+      // // Двойной клик по слайду
+      // sliderElements.slider.addEventListener("dblclick", () =>
+      //   handleMouseLeave(
+      //     sliderElements,
+      //     index + 1,
+      //     otherTitles,
+      //     otherDetails,
+      //     otherLabel,
+      //     otherImages
+      //   )
+      // );
+    });
+  }
 });

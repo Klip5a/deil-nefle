@@ -9,42 +9,59 @@
 </head>
 
 <body class="page">
-
+  <!-- HEADER -->
   <header class="header">
-    <div class="header__logo"><a href="">Elfen lied</a></div>
-    <nav class="header__nav">
-      <div class="header__section">
-        <a href="#" class="header__link">
-          <img src="./assets/icons/menu.svg" alt="Каталог" class="header__icon" />Каталог
-        </a>
+    <!--   Основной контейнер для шапки -->
+    <div class="header__container">
+      <!--  контейнер для логотипа и 2 секций  -->
+      <div class="header__main">
+        <div class="header__logo">
+          <a href="">Elfen lied</a>
+        </div>
+        <nav class="header__nav">
+          <div class="header__section">
+            <a href="#" class="header__link">
+              <img src="./assets/icons/menu.svg" alt="Каталог" class="header__icon" />Каталог
+            </a>
+          </div>
+          <div class="header__section">
+            <a href="#" class="header__link">Блог</a>
+            <a href="#" class="header__link">Контакты</a>
+          </div>
+        </nav>
       </div>
-      <div class="header__section">
-        <a href="#" class="header__link">Блог</a>
-        <a href="#" class="header__link">Контакты</a>
-      </div>
-      <div class="header__section">
-        <a href="#" class="header__link">
-          <img src="./assets/icons/search.svg" alt="" class="header__icon" />Поиск
-        </a>
-      </div>
-      <div class="header__section">
-        <div class="header__link--wrapper">
-          <a href="#" class="header__link" id="header__favorites">
-            <img src="./assets/icons/favorites.svg" alt="Избранное" class="header__icon" />
-          </a>
-          <a href="#" class="header__link" id="header__profile">
-            <img src="./assets/icons/profile.svg" alt="Вход" class="header__icon" />
-          </a>
-          <a href="#" class="header__link" id="header__cart">
-            <img src="./assets/icons/basket.svg" alt="Корзина" class="header__icon" />
+      <!--  контейнер для 2 секций  -->
+      <nav class="header__nav--second">
+        <div class="header__section">
+          <a href="#" class="header__link" id="header__link--search">
+            <img src="./assets/icons/search.svg" alt="" class="header__icon" />
+            <span>Поиск</span>
           </a>
         </div>
-      </div>
-    </nav>
-    <!-- Cart Modal -->
-    <div class="modal-wrapper">
-      <div id="modal-cart" class="modal modal--hidden">
+        <div class="header__section">
+          <div class="header__link--wrapper">
+            <a href="#" class="header__link" id="header__favorites">
+              <img src="./assets/icons/favorites.svg" alt="Избранное" class="header__icon" />
+            </a>
+            <a href="#" class="header__link" id="header__profile">
+              <img src="./assets/icons/profile.svg" alt="Вход" class="header__icon" />
+            </a>
+            <a href="#" class="header__link" id="header__cart">
+              <img src="./assets/icons/basket.svg" alt="Корзина" class="header__icon" />
+            </a>
+            <a href="#" class="header__link">
+              <img src="./assets/icons/phone.svg" alt="Телефон" class="header__icon">
+            </a>
+          </div>
+        </div>
+      </nav>
+    </div>
 
+    <!-- MODAL WRAPPER -->
+    <div class="modal-wrapper">
+      <!-- Cart Modal -->
+      <div id="modal-cart" class="modal modal--hidden">
+        <div class="modal__overlay"></div>
         <div class="modal__content">
           <span class="modal__title">Ваша корзина</span>
           <button class="modal__close"></button>
@@ -73,24 +90,25 @@
 
       <!-- Favorites Modal -->
       <div id="modal-favorites" class="modal modal--hidden">
+        <div class="modal__overlay"></div>
         <div class="modal__content">
           <button class="modal__close"></button>
           <h2 class="modal__title">Товары в избранном</h2>
-          <div class="title-empty-message">Список избранного пуст</div>
-          <!-- Favorites list -->
+          <div class="title-empty-message">Список пуст</div>
+
           <div class="favorites__list">
-            <!-- Favorite items will be added here -->
+
           </div>
         </div>
       </div>
 
-      <!-- Profile Modal -->
       <!-- Login Modal -->
       <div id="modal-login" class="modal modal--hidden">
+        <div class="modal__overlay"></div>
         <div class="modal__content">
           <button class="modal__close"></button>
           <h2 class="modal__title">Вход</h2>
-          <form id="login-form" class="modal__form">
+          <form id="login-form" class="modal__form" novalidate>
             <div class="input-wrapper">
               <label class="modal__label" for="email">E-MAIL</label>
               <input class="modal__field" type="email" id="email" name="email" placeholder=" " />
@@ -110,38 +128,34 @@
 
       <!-- Registration Modal -->
       <div id="modal-registration" class="modal modal--hidden">
+        <div class="modal__overlay"></div>
         <div class="modal__content">
           <button class="modal__close"></button>
           <h2 class="modal__title">Регистрация</h2>
-          <form id="registration-form" class="modal__form">
+          <form id="registration-form" class="modal__form" novalidate>
             <div class="input-wrapper">
               <label class="modal__label" for="reg-email">E-MAIL</label>
               <input class="modal__field" type="email" id="reg-email" name="reg-email" />
             </div>
-
             <div class="input-wrapper">
               <label class="modal__label" for="reg-password">ПАРОЛЬ</label>
               <input class="modal__field" type="password" id="reg-password" name="reg-password" />
             </div>
-
             <div class="input-wrapper last-input-wrapper">
               <label class="modal__label" for="confirm-password">ПОВТОРИТЕ ПАРОЛЬ</label>
               <input class="modal__field" type="password" id="confirm-password" name="confirm-password" />
             </div>
-
-
             <button type="submit" class="modal__submit modal__submit--registration">Регистрация</button>
-
             <div class="modal__switch modal__switch--registration">
               <a href="#" id="switch-to-login">Вход</a>
             </div>
           </form>
-
         </div>
       </div>
     </div>
   </header>
 
+  <!-- SEARCH OVERLAY -->
   <div class="search-overlay">
     <div class="search-bar">
       <button class="search-bar__disabled-btn"></button>
@@ -150,7 +164,9 @@
     </div>
   </div>
 
+  <!-- MAIN -->
   <main class="main-content">
+    <!-- SLIDER -->
     <section class="slider section-container">
       <!-- SLIDER ITEM 1 -->
       <div class="slider__item slider__item--color-1 slider__item--expanded" data-slide="1">
@@ -186,7 +202,11 @@
             <span>Слайд</span>
             <span class="number">01</span>
           </div>
-          <button class="slider__button"></button>
+          <button class="slider__button">
+            <div class="ellipse ellipse-1"></div>
+            <div class="ellipse ellipse-2"></div>
+            <div class="text">Купить</div>
+          </button>
         </div>
       </div>
       <!-- SLIDER ITEM 2 -->
@@ -223,7 +243,11 @@
             <span>Слайд</span>
             <span class="number">02</span>
           </div>
-          <button class="slider__button"></button>
+          <button class="slider__button">
+            <div class="ellipse ellipse-1"></div>
+            <div class="ellipse ellipse-2"></div>
+            <div class="text">Купить</div>
+          </button>
         </div>
       </div>
       <!-- SLIDER ITEM 3 -->
@@ -260,8 +284,17 @@
             <span>Слайд</span>
             <span class="number">03</span>
           </div>
-          <button class="slider__button"></button>
+          <button class="slider__button">
+            <div class="ellipse ellipse-1"></div>
+            <div class="ellipse ellipse-2"></div>
+            <div class="text">Купить</div>
+          </button>
         </div>
+      </div>
+      <div class="slide-number-display">
+        <span class="slide-number">01</span>
+        <span class="separator"></span>
+        <span class="slide-number">03</span>
       </div>
     </section>
 
@@ -280,8 +313,8 @@
             <p class="categories__name">НАПОЛЬНЫЕ ЗЕРКАЛА</p>
             <img class="categories__image" src="./assets/images/categories/mirror-categories.png" alt="">
             <div class="categories__inscription"></div>
+            <button class="categories__button"></button>
           </div>
-          <button class="categories__button"></button>
         </div>
 
         <div class="categories__item" data-category="lamps">
@@ -295,8 +328,8 @@
             <p class="categories__name">ТОРШЕРЫ И ЛАМПЫ</p>
             <img class="categories__image" src="./assets/images/categories/lamps-categories.png" alt="">
             <div class="categories__inscription"></div>
+            <button class="categories__button"></button>
           </div>
-          <button class="categories__button"></button>
         </div>
 
         <div class="categories__item" data-category="chairs">
@@ -310,8 +343,8 @@
             <p class="categories__name">КРЕСЛА И СТУЛЬЯ</p>
             <img class="categories__image" src="./assets/images/categories/chair-categories.png" alt="">
             <div class="categories__inscription"></div>
+            <button class="categories__button"></button>
           </div>
-          <button class="categories__button"></button>
         </div>
 
         <div class="categories__item" data-category="tables">
@@ -325,8 +358,8 @@
             <p class="categories__name">СТОЛЫ И ТУМБЫ</p>
             <img class="categories__image" src="./assets/images/categories/table-categories.png" alt="">
             <div class="categories__inscription"></div>
+            <button class="categories__button"></button>
           </div>
-          <button class="categories__button"></button>
         </div>
       </div>
 
@@ -539,29 +572,7 @@
             <span>мин</span>
           </div>
         </div>
-
-        <!-- Blog Item 1 -->
-        <div class="blog-slider__item">
-          <div class="blog-slider__content">
-            <div class="blog-slider__content-header">
-              <span class="blog-slider__number">01</span>
-              <!-- TODO: разделить имя и фамилию -->
-              <span class="blog-slider__author">Laura Busche</span>
-            </div>
-            <h4 class="blog-slider__title">НОВАЯ КОЛЛЕКЦИЯ КРЕСЕЛ</h4>
-            <span class="blog-slider__date">
-              14 ЯНВАРЯ 2023
-            </span>
-            <div class="blog-slider__image--wrapper">
-              <img class="blog-slider__image" src="./assets/images/blog/photo-blog-1.jpg" alt="Новое кресло">
-            </div>
-          </div>
-          <div class="blog-slider__time">
-            <span>3</span>
-            <span>мин</span>
-          </div>
-        </div>
-        <!-- Blog Item 2 -->
+        <!-- Blog Item 6 -->
         <div class="blog-slider__item">
           <div class="blog-slider__content">
             <div class="blog-slider__content-header">
@@ -581,7 +592,7 @@
             <span>мин</span>
           </div>
         </div>
-        <!-- Blog Item 3 -->
+        <!-- Blog Item 7 -->
         <div class="blog-slider__item">
           <div class="blog-slider__content">
             <div class="blog-slider__content-header">
@@ -601,7 +612,7 @@
             <span>мин</span>
           </div>
         </div>
-        <!-- Blog Item 4 -->
+        <!-- Blog Item 8 -->
         <div class="blog-slider__item">
           <div class="blog-slider__content">
             <div class="blog-slider__content-header">
@@ -619,7 +630,7 @@
             <span>мин</span>
           </div>
         </div>
-        <!-- Blog Item 5 -->
+        <!-- Blog Item 9 -->
         <div class="blog-slider__item">
           <div class="blog-slider__content">
             <div class="blog-slider__content-header">
@@ -643,6 +654,7 @@
 
   </main>
 
+  <!-- PRODUCT MODAL -->
   <div class="product-modal product-modal--hidden">
     <div class="product-modal__content">
       <button class="product-modal__close"><span>Закрыть</span></button>
@@ -652,7 +664,8 @@
         <div class="product-modal__header-left">
           <h3 class="product-modal__article">Арт. GNM007</h3>
           <div class="product-modal__color-name">
-            ЦВЕТ:<div class="product-modal__color-indicator"><span>Лаванда</span></div>
+            <span class="product-modal__color-label">ЦВЕТ:</span>
+            <div class="product-modal__color-indicator"><span>Лаванда</span></div>
           </div>
         </div>
         <div class="product-modal__header-right">
@@ -686,6 +699,18 @@
       </div>
     </div>
   </div>
+
+  <!-- MOBILE PRODUCT MODAL -->
+  <div class="product-mobile-modal" id="productMobileModal">
+    <div class="product-mobile-modal__header">
+      <span>Торшеры и лампы</span>
+      <button class="product-mobile-modal__close" id="productMobileCloseModal"></button>
+    </div>
+
+    <div class="product-mobile-modal__list" id="productListMobile">
+    </div>
+  </div>
+
 
   <footer class="footer section-container">
     <div class="footer__text">@2023</div>
